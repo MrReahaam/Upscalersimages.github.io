@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free AI Image Upscaler - Enhance your images to 2x, 4K, and 8K resolution instantly">
+    <title>PixelPerfect HD - Free AI Image Upscaler</title>
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section with Logo and Brand Name -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <!-- SVG Logo - Pixel transforming into sharp shape -->
+                <svg class="logo" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="15" height="15" fill="#007BFF" opacity="0.6"/>
+                    <rect x="5" y="25" width="15" height="15" fill="#007BFF" opacity="0.6"/>
+                    <rect x="25" y="5" width="15" height="15" fill="#007BFF" opacity="0.6"/>
+                    <polygon points="30,20 45,30 30,40" fill="#007BFF"/>
+                    <circle cx="40" cy="30" r="8" fill="#00D4FF" opacity="0.8"/>
+                </svg>
+                <h1 class="brand-name">PixelPerfect HD</h1>
+            </div>
+            <p class="tagline">Transform Your Images with AI Power</p>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Upload Section - Initially Visible -->
+            <section id="uploadSection" class="upload-section">
+                <h2 class="section-title">Upload Your Image</h2>
+                <p class="section-subtitle">Drag & drop your image or click to browse</p>
+                
+                <!-- Drag & Drop Upload Box -->
+                <div id="uploadBox" class="upload-box">
+                    <div class="upload-icon">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 8L12 3L7 8" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3V15" stroke="#007BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p class="upload-text">Drag & Drop Your Image Here</p>
+                    <p class="upload-subtext">or</p>
+                    <button class="browse-btn" id="browseBtn">Browse Files</button>
+                    <p class="file-formats">Supports: JPG, PNG, WEBP</p>
+                    
+                    <!-- Hidden File Input -->
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden>
+                    
+                    <!-- Image Preview (Initially Hidden) -->
+                    <div id="imagePreview" class="image-preview" style="display: none;">
+                        <img id="previewImage" src="" alt="Preview">
+                        <button id="removeImage" class="remove-btn">✕</button>
+                    </div>
+                </div>
+
+                <!-- Upscale Resolution Options -->
+                <div class="resolution-options">
+                    <h3 class="options-title">Select Upscale Resolution</h3>
+                    <div class="resolution-buttons">
+                        <button class="resolution-btn" data-resolution="2x">2x</button>
+                        <button class="resolution-btn active" data-resolution="4K">4K</button>
+                        <button class="resolution-btn" data-resolution="8K">8K</button>
+                    </div>
+                </div>
+
+                <!-- Upscale Button -->
+                <button id="upscaleBtn" class="upscale-btn" disabled>
+                    <span>Upscale Image</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </section>
+
+            <!-- Loading Section - Initially Hidden -->
+            <section id="loadingSection" class="loading-section" style="display: none;">
+                <div class="loading-spinner"></div>
+                <h3 class="loading-text">Enhancing your pixels... Please wait.</h3>
+                <p class="loading-subtext">Our AI is working its magic ✨</p>
+            </section>
+
+            <!-- Result Section - Initially Hidden -->
+            <section id="resultSection" class="result-section" style="display: none;">
+                <h2 class="section-title">Your Enhanced Image</h2>
+                <p class="section-subtitle">Slide to compare the transformation</p>
+                
+                <!-- Before/After Comparison Slider -->
+                <div class="comparison-container">
+                    <div class="comparison-slider" id="comparisonSlider">
+                        <!-- Original Image (Left Side) -->
+                        <div class="comparison-image original-image">
+                            <img id="originalImage" src="" alt="Original Image">
+                            <span class="image-label">Original</span>
+                        </div>
+                        
+                        <!-- Upscaled Image (Right Side) -->
+                        <div class="comparison-image upscaled-image" id="upscaledContainer">
+                            <img id="upscaledImage" src="" alt="Upscaled Image">
+                            <span class="image-label">Upscaled</span>
+                        </div>
+                        
+                        <!-- Slider Handle -->
+                        <div class="slider-handle" id="sliderHandle">
+                            <div class="slider-line"></div>
+                            <div class="slider-button">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 19L8 12L15 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 19L16 12L9 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button id="downloadBtn" class="download-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15V3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Download Upscaled Image</span>
+                </button>
+
+                <!-- Process Another Image Button -->
+                <button id="newImageBtn" class="new-image-btn">Process Another Image</button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p class="copyright">© 2025 PixelPerfect HD. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Terms of Service</a>
+                <span class="separator">|</span>
+                <a href="mailto:reshamsaliwala@gmail.com" class="footer-link">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
